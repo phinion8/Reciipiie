@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "973693973561",
+    "project_id": "reciipiie-ac2cf",
+    "storage_bucket": "reciipiie-ac2cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973693973561:android:debc6b406ee782d86449e8",
+        "android_client_info": {
+          "package_name": "com.priyanshu.reciipiie"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPN3KtmhzfradIFnFOl_20H2YzCLr3P8A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

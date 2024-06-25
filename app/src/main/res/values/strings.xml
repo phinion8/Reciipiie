@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Reciipiie</string>
+    <string name="please_sign_in_to_continue_by_signing_up_you_agree_to_our_terms_and_conditions">Please sign in to continue.\nBy signing up you agree to our terms and conditions.</string>
+    <string name="welcome_to_reciipie">Welcome to Reciipiie!</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="google_icon">Google Icon</string>
+    <string name="welcome_to_reciipiie_discover_delicious_recipes_and_unleash_your_inner_chef_let_s_start_cooking">Welcome to Reciipiie.\nDiscover delicious recipes and unleash your inner chef. Let\'s start cooking!</string>
+    <string name="get_started">Get Started</string>
+    <string name="don_t_know_what_to_cook">Don\'t Know What To Cook?</string>
+</resources>
