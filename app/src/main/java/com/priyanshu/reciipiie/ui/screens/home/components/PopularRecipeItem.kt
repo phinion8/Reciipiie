@@ -57,7 +57,7 @@ fun PopularRecipeItem(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "${recipe.readyInMinutes} min | ${recipe.servings} | ${if (recipe.vegetarian) "Vegetarian" else "Non Vegetarian"}",
+                    text = "${recipe.readyInMinutes} min | Servings: ${recipe.servings} | ${if (recipe.vegetarian) "Vegetarian" else "Non Vegetarian"}",
                     style = MaterialTheme.typography.bodyLarge.copy(fontSize = 14.sp)
                 )
 

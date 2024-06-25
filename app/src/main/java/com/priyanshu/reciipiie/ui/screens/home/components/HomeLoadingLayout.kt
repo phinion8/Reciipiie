@@ -18,7 +18,7 @@ import com.priyanshu.reciipiie.ui.components.shimmerLoadingAnimation
 fun HomeLoadingLayout() {
 
         LazyColumn(
-            modifier = Modifier.fillMaxWidth().padding(bottom = 100.dp),
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

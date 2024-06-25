@@ -1,5 +1,6 @@
 package com.priyanshu.reciipiie.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHost
@@ -45,10 +46,10 @@ fun SetUpNavigation(
 }
 
 @Composable
-fun HomeNavGraph(navController: NavHostController) {
+fun HomeNavGraph(navController: NavHostController, innerPadding: PaddingValues) {
     NavHost(navController = navController, route = "home", startDestination = Screens.Home.route) {
         composable(route = Screens.Home.route){
-            HomeScreenContent()
+            HomeScreenContent(innerPadding = innerPadding)
         }
         composable(route = Screens.Favorites.route){
 
