@@ -6,16 +6,16 @@ interface PreferenceManager {
     suspend fun saveOnBoardingState(completed: Boolean)
     fun readOnBoardingState(): Flow<Boolean>
 
-    fun saveUserId(id: String)
+    suspend fun saveUserId(id: String)
     fun readUserId(): Flow<String>
 
-    fun saveUsername(username: String)
+    suspend fun saveUsername(username: String)
     fun readUsername(): Flow<String>
 
-    fun saveUserEmail(email: String)
+    suspend fun saveUserEmail(email: String)
     fun readUserEmail(): Flow<String>
 
-    fun saveUserProfilePicUrl(url: String)
-    fun readUserProfilePicUr(): Flow<String>
+    suspend fun saveUserProfilePicUrl(url: String)
+    fun readUserProfilePicUrl(): Flow<String>
 
 }

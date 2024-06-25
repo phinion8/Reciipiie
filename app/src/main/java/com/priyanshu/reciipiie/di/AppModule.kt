@@ -6,8 +6,16 @@ import com.priyanshu.reciipiie.data.repository.RepositoryImpl
 import com.priyanshu.reciipiie.domain.repository.PreferenceManager
 import com.priyanshu.reciipiie.domain.repository.Repository
 import com.priyanshu.reciipiie.domain.usecases.OnBoardingUseCase
-import com.priyanshu.reciipiie.domain.usecases.read_onboarding.ReadOnBoardingUseCase
-import com.priyanshu.reciipiie.domain.usecases.save_onboarding.SaveOnBoardingUseCase
+import com.priyanshu.reciipiie.domain.usecases.on_boarding_use_case.ReadOnBoardingUseCase
+import com.priyanshu.reciipiie.domain.usecases.on_boarding_use_case.ReadUserEmailUseCase
+import com.priyanshu.reciipiie.domain.usecases.on_boarding_use_case.ReadUserIdUseCase
+import com.priyanshu.reciipiie.domain.usecases.on_boarding_use_case.ReadUserNameUseCase
+import com.priyanshu.reciipiie.domain.usecases.on_boarding_use_case.ReadUserProfilePicUseCase
+import com.priyanshu.reciipiie.domain.usecases.on_boarding_use_case.SaveOnBoardingUseCase
+import com.priyanshu.reciipiie.domain.usecases.on_boarding_use_case.SaveUserEmailUseCase
+import com.priyanshu.reciipiie.domain.usecases.on_boarding_use_case.SaveUserIdUseCase
+import com.priyanshu.reciipiie.domain.usecases.on_boarding_use_case.SaveUserNameUseCase
+import com.priyanshu.reciipiie.domain.usecases.on_boarding_use_case.SaveUserProfilePicUrlUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,7 +44,15 @@ object AppModule {
     fun provideOnBoardingUseCase(repository: Repository): OnBoardingUseCase{
         return OnBoardingUseCase(
             saveOnBoardingUseCase = SaveOnBoardingUseCase(repository),
-            readOnBoardingUseCase = ReadOnBoardingUseCase(repository)
+            readOnBoardingUseCase = ReadOnBoardingUseCase(repository),
+            saveUserIdUseCase = SaveUserIdUseCase(repository),
+            readUserIdUseCase = ReadUserIdUseCase(repository),
+            saveUserNameUseCase = SaveUserNameUseCase(repository),
+            readUserNameUseCase = ReadUserNameUseCase(repository),
+            saveUserEmailUseCase = SaveUserEmailUseCase(repository),
+            readUserEmailUseCase = ReadUserEmailUseCase(repository),
+            saveUserPhotoUrlUseCase = SaveUserProfilePicUrlUseCase(repository),
+            readUserPhotoUrlUseCase = ReadUserProfilePicUseCase(repository)
         )
     }
 

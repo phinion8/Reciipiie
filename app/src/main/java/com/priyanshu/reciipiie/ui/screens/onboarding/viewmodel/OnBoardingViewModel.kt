@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
-    private val onBoardingUseCase: OnBoardingUseCase
+    private val useCase: OnBoardingUseCase
 ) : ViewModel() {
 
     private val _signInWithGoogleState: MutableStateFlow<Resource<BeginSignInResult>> =
@@ -32,7 +32,7 @@ class OnBoardingViewModel @Inject constructor(
 
     fun saveOnBoardingState(completed: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            onBoardingUseCase.saveOnBoardingUseCase(completed = completed)
+            useCase.saveOnBoardingUseCase(completed = completed)
         }
     }
 
@@ -61,6 +61,20 @@ class OnBoardingViewModel @Inject constructor(
 
         }.addOnFailureListener {
             _signInWithGoogleState.value = Resource.Error(it.localizedMessage)
+        }
+    }
+
+    fun saveUserDetailsToPreferenceManager(
+        userId: String,
+        userName: String,
+        userEmail: String,
+        userPhotoUrl: String
+    ) {
+        viewModelScope.launch {
+            useCase.saveUserIdUseCase(userId)
+            useCase.saveUserNameUseCase(userName)
+            useCase.saveUserEmailUseCase(userEmail)
+            useCase.saveUserPhotoUrlUseCase(userPhotoUrl)
         }
     }
 

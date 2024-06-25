@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -53,6 +54,7 @@ import kotlinx.coroutines.flow.collect
 
 @Composable
 fun GoogleSignInScreen(
+    navController: NavController,
     viewModel: OnBoardingViewModel = hiltViewModel()
 ) {
 
@@ -74,9 +76,21 @@ fun GoogleSignInScreen(
                         val userId = task.result.user!!.uid
                         val userName = task.result.user!!.displayName
                         val userEmail = task.result.user!!.email
-                        val userPhoto = task.result.user!!.photoUrl.toString()
-                        if (userName != null) {
-                            context.showToast(userName)
+                        val userPhotoUrl = task.result.user!!.photoUrl.toString()
+
+                        if (userName != null && userEmail != null) {
+                            viewModel.saveUserDetailsToPreferenceManager(
+                                userId,
+                                userName,
+                                userEmail,
+                                userPhotoUrl
+                            )
+
+                        }
+                        navController.navigate("home"){
+                            popUpTo("auth"){
+                                inclusive = true
+                            }
                         }
 
                     }.addOnFailureListener { error ->
@@ -98,7 +112,6 @@ fun GoogleSignInScreen(
                 is Resource.Loading -> {
                     isLoading = true
                 }
-
                 is Resource.Success -> {
                     try {
                         val intentSenderRequest =
@@ -132,7 +145,7 @@ fun GoogleSignInScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if(isLoading){
+        if (isLoading) {
             LoadingDialog {}
         }
         Image(

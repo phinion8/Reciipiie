@@ -1,9 +1,14 @@
 package com.priyanshu.reciipiie.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
+import com.priyanshu.reciipiie.ui.screens.home.HomeScreen
+import com.priyanshu.reciipiie.ui.screens.home.HomeScreenContent
 import com.priyanshu.reciipiie.ui.screens.onboarding.GoogleSignInScreen
 import com.priyanshu.reciipiie.ui.screens.onboarding.OnBoardingScreen
 import com.priyanshu.reciipiie.ui.screens.splash.SplashScreen
@@ -13,24 +18,43 @@ fun SetUpNavigation(
     navController: NavHostController
 ) {
 
-    NavHost(navController = navController, startDestination = Screens.Splash.route){
+    NavHost(navController = navController, route = "root", startDestination ="auth"){
 
-        composable(route = Screens.Splash.route){
-            SplashScreen(onSplashFinished = {
-                navController.popBackStack()
-                navController.navigate(Screens.OnBoardingScreen.route)
-            })
+        navigation(startDestination = Screens.Splash.route, route = "auth"){
+
+            composable(route = Screens.Splash.route){
+                SplashScreen(navController)
+            }
+
+            composable(route = Screens.OnBoarding.route){
+                OnBoardingScreen(navController)
+            }
+
+            composable(route = Screens.GoogleSignIn.route){
+                GoogleSignInScreen(navController)
+            }
+
         }
 
-        composable(route = Screens.OnBoardingScreen.route){
-            OnBoardingScreen(onGetStartedClicked = {
-                navController.navigate(Screens.GoogleSignInScreen.route)
-            })
+        composable(route = "home"){
+            HomeScreen()
         }
 
-        composable(route = Screens.GoogleSignInScreen.route){
-            GoogleSignInScreen()
-        }
     }
 
+}
+
+@Composable
+fun HomeNavGraph(navController: NavHostController) {
+    NavHost(navController = navController, route = "home", startDestination = Screens.Home.route) {
+        composable(route = Screens.Home.route){
+            HomeScreenContent()
+        }
+        composable(route = Screens.Favorites.route){
+
+        }
+        composable(route = Screens.Profile.route){
+
+        }
+    }
 }

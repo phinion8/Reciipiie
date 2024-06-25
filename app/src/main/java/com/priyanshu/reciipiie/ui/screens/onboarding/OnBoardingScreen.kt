@@ -16,16 +16,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.priyanshu.reciipiie.R
+import com.priyanshu.reciipiie.navigation.Screens
 import com.priyanshu.reciipiie.ui.components.CustomElevatedButton
 import com.priyanshu.reciipiie.ui.components.ShowLottieAnimation
+import com.priyanshu.reciipiie.ui.screens.onboarding.viewmodel.OnBoardingViewModel
 import com.priyanshu.reciipiie.ui.theme.grey
 import com.priyanshu.reciipiie.ui.theme.grey300
 import com.priyanshu.reciipiie.ui.theme.lightGrey
 
 @Composable
 fun OnBoardingScreen(
-    onGetStartedClicked: () -> Unit
+    navController: NavController,
+    viewModel: OnBoardingViewModel = hiltViewModel(),
 ) {
 
     Column(
@@ -58,7 +63,8 @@ fun OnBoardingScreen(
             Spacer(modifier = Modifier.height(42.dp))
 
             CustomElevatedButton(onClick = {
-                onGetStartedClicked()
+                viewModel.saveOnBoardingState(true)
+                navController.navigate(Screens.GoogleSignIn.route)
             }, text = stringResource(R.string.get_started))
         }
 
