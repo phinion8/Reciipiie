@@ -90,6 +90,7 @@ class PreferenceManagerImpl(context: Context) : PreferenceManager {
 
         }.map { preferences ->
             val username = preferences[PreferencesKey.userNameKey] ?: ""
+            Log.d("SOMEISSUE", "reading username as $username")
             username
         }
     }

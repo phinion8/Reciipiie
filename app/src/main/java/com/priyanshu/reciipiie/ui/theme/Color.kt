@@ -24,6 +24,10 @@ val grey: Color
     @Composable
     get() = if (isSystemInDarkTheme()) darkGrey else greyShade2
 
+val grey500: Color
+    @Composable
+    get() = if (isSystemInDarkTheme()) Color(0xFF272727) else greyShade2
+
 val grey300: Color
     @Composable
     get() = if (isSystemInDarkTheme()) lightGrey else greyShade2

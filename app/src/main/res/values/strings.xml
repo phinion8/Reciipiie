@@ -7,4 +7,6 @@
     <string name="welcome_to_reciipiie_discover_delicious_recipes_and_unleash_your_inner_chef_let_s_start_cooking">Welcome to Reciipiie.\nDiscover delicious recipes and unleash your inner chef. Let\'s start cooking!</string>
     <string name="get_started">Get Started</string>
     <string name="don_t_know_what_to_cook">Don\'t Know What To Cook?</string>
+    <string name="what_are_you_looking_for">What are you looking for?</string>
+    <string name="search_icon">Search Icon</string>
 </resources>

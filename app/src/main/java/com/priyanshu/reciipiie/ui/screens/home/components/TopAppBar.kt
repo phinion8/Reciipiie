@@ -44,7 +44,7 @@ fun TopAppBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 4.dp),
+            .padding(vertical = 4.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -54,8 +54,7 @@ fun TopAppBar(
             AsyncImage(
                 modifier = Modifier
                     .clip(CircleShape)
-                    .size(50.dp)
-                    .border(width = 1.dp, color = grey300, shape = CircleShape),
+                    .size(50.dp),
                 model = profilePicUrl,
                 placeholder = painterResource(id = R.drawable.sample_profile_img),
                 error = painterResource(id = R.drawable.sample_profile_img),
@@ -85,7 +84,7 @@ fun TopAppBar(
                 .size(40.dp)
                 .background(shape = CircleShape, color = Color.Transparent)
                 .border(width = 1.dp, shape = CircleShape, color = grey300)
-                .padding(8.dp),
+                .padding(10.dp),
             painter = painterResource(id = R.drawable.ic_notification),
             contentDescription = " Notification",
             tint = primaryColor
