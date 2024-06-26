@@ -10,11 +10,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.priyanshu.reciipiie.domain.models.Recipe
 import com.priyanshu.reciipiie.domain.models.search.Result
 import com.priyanshu.reciipiie.domain.usecases.spoonacular_api_use_case.SpoonacularApiUseCase
 import com.priyanshu.reciipiie.ui.screens.home.viewModel.SearchListState
 import com.priyanshu.reciipiie.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,11 +33,24 @@ class SearchViewModel @Inject constructor(
         _searchQuery.value = query
     }
 
+    private val _recipeInfoState: MutableStateFlow<Resource<Recipe>> = MutableStateFlow(Resource.Nothing())
+    val recipeInfoState = _recipeInfoState.asStateFlow()
+
+    private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
+
+    private val _showSheet: MutableStateFlow<Pair<Boolean, Recipe?>> = MutableStateFlow(Pair(false, null))
+    val showSheet = _showSheet.asStateFlow()
+
     val searchRecipeList = mutableStateListOf<Result>()
     var page by mutableIntStateOf(1)
     var canPaginate by mutableStateOf(false)
     var searchListState by mutableStateOf(SearchListState.IDLE)
     var error by mutableStateOf("")
+
+    fun updateSheetState(value: Boolean){
+        _showSheet.value = Pair(false, null)
+    }
 
     fun loadSearchItemPaginated() {
         viewModelScope.launch {
@@ -76,6 +92,30 @@ class SearchViewModel @Inject constructor(
             }
 
         }
+    }
+
+    fun getRecipeInfo(id: Int){
+        viewModelScope.launch {
+            useCases.getRecipeInfo(id).collect{result->
+
+                when(result){
+                    is Resource.Loading -> {
+                        _isLoading.value = true
+                    }
+                    is Resource.Success -> {
+                        _isLoading.value = false
+                        _showSheet.value = Pair(true, result.data)
+                    }
+                    is Resource.Error -> {
+                        _isLoading.value = false
+                        _showSheet.value = Pair(false, null)
+                    }
+                    else -> {}
+                }
+
+            }
+        }
+
     }
 
     override fun onCleared() {

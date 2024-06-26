@@ -1,6 +1,7 @@
 package com.priyanshu.reciipiie.domain.usecases.spoonacular_api_use_case
 
 import com.priyanshu.reciipiie.domain.models.RandomRecipeList
+import com.priyanshu.reciipiie.domain.models.Recipe
 import com.priyanshu.reciipiie.domain.models.search.SearchRecipeList
 import com.priyanshu.reciipiie.domain.repository.SpoonacularRepository
 import com.priyanshu.reciipiie.utils.Resource
@@ -43,6 +44,19 @@ class SpoonacularApiUseCase @Inject constructor(
         emit(Resource.Loading())
         try {
             val response = repository.getRecipeListFromSearchQuery(query, offset)
+            emit(Resource.Success(response))
+        }catch (e: Exception){
+            emit(Resource.Error(e.localizedMessage))
+        }
+    }.catch {
+        it.printStackTrace()
+        emit(Resource.Error(it.localizedMessage))
+    }
+
+    fun getRecipeInfo(id: Int): Flow<Resource<Recipe>> = flow {
+        emit(Resource.Loading())
+        try {
+            val response = repository.getRecipeInfo(id)
             emit(Resource.Success(response))
         }catch (e: Exception){
             emit(Resource.Error(e.localizedMessage))
