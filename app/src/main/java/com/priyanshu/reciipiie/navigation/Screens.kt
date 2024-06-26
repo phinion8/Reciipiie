@@ -8,4 +8,13 @@ sealed class Screens(val route: String) {
     data object Favorites: Screens(route = Routes.FAVOURITES_SCREEN)
     data object Profile: Screens(route = Routes.PROFILE_SCREEN)
     data object Search: Screens(route = Routes.SEARCH_SCREEN)
+    data class RecipeDetails(val id: String? = null): Screens(route = Routes.RECIPE_DETAILS_SCREEN){
+        fun buildRoute(): String {
+            return if (id  != null){
+                "${Routes.RECIPE_DETAILS_SCREEN}/$id"
+            }else{
+                "${Routes.RECIPE_DETAILS_SCREEN}/{id}"
+            }
+        }
+    }
 }

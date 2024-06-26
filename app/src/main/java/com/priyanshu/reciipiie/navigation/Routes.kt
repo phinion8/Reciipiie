@@ -8,4 +8,5 @@ object Routes {
     const val FAVOURITES_SCREEN = "favourite_screen"
     const val PROFILE_SCREEN = "profile_screen"
     const val SEARCH_SCREEN = "search_screen"
+    const val RECIPE_DETAILS_SCREEN = "recipe_screen"
 }

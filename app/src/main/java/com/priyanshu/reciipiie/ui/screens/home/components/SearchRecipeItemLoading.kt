@@ -15,7 +15,7 @@ fun SearchRecipeItemLoading() {
     Box(
         modifier = Modifier
             .height(120.dp)
-            .fillMaxWidth(0.9f)
+            .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .shimmerLoadingAnimation()
     )

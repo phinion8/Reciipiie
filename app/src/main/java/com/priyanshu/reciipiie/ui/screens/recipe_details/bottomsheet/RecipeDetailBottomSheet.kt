@@ -19,8 +19,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.ArrowDropDown
@@ -154,7 +156,7 @@ fun RecipeDetailBottomSheet(
                                     isFavorite = false
                                     viewModel.deleteFavoriteRecipe(recipeId = recipe.id.toString())
                                     context.showToast("Removed from Favorites list.")
-                                }else{
+                                } else {
                                     isFavorite = true
                                     viewModel.addFavoriteRecipeItem(recipeItem)
                                     context.showToast("Added to Favorites list.")
@@ -269,10 +271,14 @@ fun IngredientsAccordion(modifier: Modifier = Modifier, ingredientList: List<Ing
                 color = MaterialTheme.colorScheme.background,
                 shape = RoundedCornerShape(8.dp),
                 border = BorderStroke(1.dp, grey300),
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .align(Alignment.CenterHorizontally)
             ) {
                 LazyVerticalGrid(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.CenterHorizontally),
                     columns = GridCells.Fixed(3),
                     horizontalArrangement = Arrangement.Center,
 
@@ -290,6 +296,8 @@ fun IngredientsAccordion(modifier: Modifier = Modifier, ingredientList: List<Ing
 fun InstructionAccordion(modifier: Modifier = Modifier, instruction: String) {
     var expanded by remember { mutableStateOf(false) }
 
+    val scrollState = rememberScrollState()
+
     Column(modifier.padding(vertical = 8.dp)) {
         AccordionHeader(title = "Instructions", isExpanded = expanded) {
             expanded = !expanded
@@ -299,7 +307,7 @@ fun InstructionAccordion(modifier: Modifier = Modifier, instruction: String) {
                 color = MaterialTheme.colorScheme.background,
                 shape = RoundedCornerShape(8.dp),
                 border = BorderStroke(1.dp, grey300),
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 8.dp).verticalScroll(scrollState)
             ) {
                 Text(
                     modifier = Modifier

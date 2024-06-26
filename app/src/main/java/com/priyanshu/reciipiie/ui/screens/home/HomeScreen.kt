@@ -208,7 +208,7 @@ fun HomeScreenContent(
 
                 items(searchRecipeList) {
                     SearchRecipeItem(result = it, onItemClick = { id ->
-
+                        navController.navigate(Screens.RecipeDetails(id).buildRoute())
                     })
                 }
 

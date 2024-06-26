@@ -42,7 +42,6 @@ class RecipeDetailBottomSheetViewModel @Inject constructor(
 
                     is Resource.Success -> {
                         _isLoading.value = false
-                        Log.d("SIMILLAR", result.data.toString())
                         if (result.data != null)
                             _similarRecipeList.value = result.data
                     }

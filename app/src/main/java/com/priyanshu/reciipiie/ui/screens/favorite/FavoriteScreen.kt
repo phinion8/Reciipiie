@@ -62,8 +62,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.priyanshu.reciipiie.R
 import com.priyanshu.reciipiie.domain.models.search.Result
+import com.priyanshu.reciipiie.navigation.Screens
 import com.priyanshu.reciipiie.ui.components.LoadingDialog
 import com.priyanshu.reciipiie.ui.components.ShowLottieAnimation
 import com.priyanshu.reciipiie.ui.screens.favorite.viewModels.FavoriteViewModel
@@ -83,6 +85,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoriteScreen(
+    navController: NavController,
     innerPaddingValues: PaddingValues,
     viewModel: FavoriteViewModel = hiltViewModel(),
 ) {
@@ -103,7 +106,11 @@ fun FavoriteScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = 16.dp, end = 16.dp, bottom = innerPaddingValues.calculateBottomPadding())
+            .padding(
+                start = 16.dp,
+                end = 16.dp,
+                bottom = innerPaddingValues.calculateBottomPadding()
+            )
     ) {
 
 
@@ -183,10 +190,18 @@ fun FavoriteScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 state = lazyColumnState
             ) {
-                items(favoriteRecipeList) {item->
-                    SearchRecipeItem(result = Result(item.id, image = item.imageUrl, "", item.title)) {
-
-                    }
+                items(favoriteRecipeList) { item ->
+                    SearchRecipeItem(
+                        result = Result(
+                            item.id,
+                            image = item.imageUrl,
+                            "",
+                            item.title
+                        ), onItemClick = {
+                            navController.navigate(
+                                Screens.RecipeDetails(item.recipeId).buildRoute()
+                            )
+                        })
                 }
             }
         }

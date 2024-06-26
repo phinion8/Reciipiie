@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -100,11 +101,11 @@ fun SimilarRecipeItem(similarRecipeItem: SimilarRecipeListItem) {
             .fillMaxWidth()
             .padding(bottom = 16.dp)
             .border(width = 1.dp, color = grey300, shape = RoundedCornerShape(16.dp))
-            .padding(vertical = 8.dp, horizontal = 16.dp),
+            .padding(vertical = 12.dp, horizontal = 16.dp),
         verticalArrangement = Arrangement.Center
     ) {
         Text(text = similarRecipeItem.title, style = MaterialTheme.typography.bodyLarge.copy(color = primaryColor))
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "${similarRecipeItem.readyInMinutes} min | Servings: ${similarRecipeItem.servings}", style = MaterialTheme.typography.bodyMedium.copy(color = primaryColor))
+        Text(text = "${similarRecipeItem.readyInMinutes} min | Servings: ${similarRecipeItem.servings}", style = MaterialTheme.typography.bodyMedium.copy(color = primaryColor, fontWeight = FontWeight.Bold))
     }
 }
