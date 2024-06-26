@@ -12,26 +12,26 @@ class SpoonacularRepositoryImpl @Inject constructor(
     private val spoonacularApi: SpoonacularApi
 ) : SpoonacularRepository {
     override suspend fun getRandomRecipeList(): RandomRecipeList {
-        return spoonacularApi.getRandomRecipeList("d15606356b0f43d0a2e5d5cb8af08341")
+        return spoonacularApi.getRandomRecipeList("4131f388386e4e38abf5e765cf873d7f")
     }
 
     override suspend fun getSearchRecipeList(offset: Int): SearchRecipeList {
-        return spoonacularApi.getSearchRecipeList("d15606356b0f43d0a2e5d5cb8af08341", offset = offset)
+        return spoonacularApi.getSearchRecipeList("4131f388386e4e38abf5e765cf873d7f", offset = offset)
     }
 
     override suspend fun getRecipeListFromSearchQuery(
         query: String,
         offset: Int
     ): SearchRecipeList {
-        return spoonacularApi.getRecipeListFromSearchQuery("d15606356b0f43d0a2e5d5cb8af08341", query, offset)
+        return spoonacularApi.getRecipeListFromSearchQuery("4131f388386e4e38abf5e765cf873d7f", query, offset)
     }
 
     override suspend fun getRecipeInfo(id: Int): Recipe {
-        return spoonacularApi.getRecipeInfo(id, "d15606356b0f43d0a2e5d5cb8af08341")
+        return spoonacularApi.getRecipeInfo(id, "4131f388386e4e38abf5e765cf873d7f")
     }
 
     override suspend fun getSimilarRecipeList(id: Int): SimilarRecipeList {
-        return spoonacularApi.getSimilarRecipeList(id, "d15606356b0f43d0a2e5d5cb8af08341")
+        return spoonacularApi.getSimilarRecipeList(id, "4131f388386e4e38abf5e765cf873d7f")
     }
 
 }
