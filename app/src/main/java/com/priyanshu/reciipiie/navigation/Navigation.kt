@@ -19,6 +19,7 @@ import com.priyanshu.reciipiie.ui.screens.home.HomeScreenContent
 import com.priyanshu.reciipiie.ui.screens.home.viewModel.HomeViewModel
 import com.priyanshu.reciipiie.ui.screens.onboarding.GoogleSignInScreen
 import com.priyanshu.reciipiie.ui.screens.onboarding.OnBoardingScreen
+import com.priyanshu.reciipiie.ui.screens.profile.ProfileScreen
 import com.priyanshu.reciipiie.ui.screens.recipe_details.details_screen.RecipeDetailsScreen
 import com.priyanshu.reciipiie.ui.screens.search.SearchScreen
 import com.priyanshu.reciipiie.ui.screens.splash.SplashScreen
@@ -72,6 +73,7 @@ fun HomeNavGraph(
         }
         composable(route = Screens.Profile.route) {
             showBottomBar(true)
+            ProfileScreen()
         }
         composable(route = Screens.Search.route) {
             showBottomBar(false)
