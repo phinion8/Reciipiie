@@ -1,5 +1,6 @@
 package com.priyanshu.reciipiie.navigation
 
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,6 +13,7 @@ import com.priyanshu.reciipiie.ui.screens.home.HomeScreen
 import com.priyanshu.reciipiie.ui.screens.home.HomeScreenContent
 import com.priyanshu.reciipiie.ui.screens.onboarding.GoogleSignInScreen
 import com.priyanshu.reciipiie.ui.screens.onboarding.OnBoardingScreen
+import com.priyanshu.reciipiie.ui.screens.search.SearchScreen
 import com.priyanshu.reciipiie.ui.screens.splash.SplashScreen
 
 @Composable
@@ -46,16 +48,21 @@ fun SetUpNavigation(
 }
 
 @Composable
-fun HomeNavGraph(navController: NavHostController, innerPadding: PaddingValues) {
+fun HomeNavGraph(navController: NavHostController, innerPadding: PaddingValues, showBottomBar: (Boolean) -> Unit) {
     NavHost(navController = navController, route = "home", startDestination = Screens.Home.route) {
         composable(route = Screens.Home.route){
-            HomeScreenContent(innerPadding = innerPadding)
+            showBottomBar(true)
+            HomeScreenContent(innerPadding = innerPadding, navController = navController)
         }
         composable(route = Screens.Favorites.route){
-
+            showBottomBar(true)
         }
         composable(route = Screens.Profile.route){
-
+            showBottomBar(true)
+        }
+        composable(route = Screens.Search.route){
+            showBottomBar(false)
+            SearchScreen()
         }
     }
 }

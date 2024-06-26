@@ -7,4 +7,5 @@ object Routes {
     const val HOME_SCREENS_ROUTE = "home_screen"
     const val FAVOURITES_SCREEN = "favourite_screen"
     const val PROFILE_SCREEN = "profile_screen"
+    const val SEARCH_SCREEN = "search_screen"
 }

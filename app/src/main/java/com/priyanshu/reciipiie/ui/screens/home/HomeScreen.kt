@@ -32,7 +32,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -40,11 +42,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.priyanshu.reciipiie.R
 import com.priyanshu.reciipiie.domain.models.RandomRecipeList
 import com.priyanshu.reciipiie.navigation.HomeNavGraph
+import com.priyanshu.reciipiie.navigation.Screens
 import com.priyanshu.reciipiie.ui.components.BottomNavBar
 import com.priyanshu.reciipiie.ui.components.ShowLottieAnimation
 import com.priyanshu.reciipiie.ui.components.models.bottomNavItems
@@ -65,25 +69,32 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     navController: NavHostController = rememberNavController()
 ) {
+    var bottomBarVisibility by remember {
+        mutableStateOf(false)
+    }
 
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Scaffold(
             content = { innerPadding ->
 
-                HomeNavGraph(navController = navController, innerPadding = innerPadding)
+                HomeNavGraph(navController = navController, innerPadding = innerPadding, showBottomBar = {
+                    bottomBarVisibility = it
+                })
 
             }, bottomBar = {
-                BottomNavBar(
-                    modifier = Modifier.fillMaxWidth(),
-                    bottomNavItems = bottomNavItems,
-                    navController = navController,
-                    onItemClick = {
-                        navController.navigate(it.route) {
-                            this.launchSingleTop = true
-                            this.restoreState = true
+                if (bottomBarVisibility){
+                    BottomNavBar(
+                        modifier = Modifier.fillMaxWidth(),
+                        bottomNavItems = bottomNavItems,
+                        navController = navController,
+                        onItemClick = {
+                            navController.navigate(it.route) {
+                                this.launchSingleTop = true
+                                this.restoreState = true
+                            }
                         }
-                    }
-                )
+                    )
+                }
             })
     }
 
@@ -92,6 +103,7 @@ fun HomeScreen(
 
 @Composable
 fun HomeScreenContent(
+    navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
     innerPadding: PaddingValues
 ) {
@@ -116,9 +128,6 @@ fun HomeScreenContent(
             viewModel.loadSearchItemPaginated()
         }
     }
-
-
-
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getRandomRecipeList()
@@ -145,7 +154,7 @@ fun HomeScreenContent(
         }
         Spacer(modifier = Modifier.height(16.dp))
         SearchBar(onSearchBarClick = {
-
+            navController.navigate(Screens.Search.route)
         })
         Spacer(modifier = Modifier.height(20.dp))
 

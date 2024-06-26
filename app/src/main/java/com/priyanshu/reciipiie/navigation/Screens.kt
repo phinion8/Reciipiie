@@ -7,4 +7,5 @@ sealed class Screens(val route: String) {
     data object Home: Screens(route = Routes.HOME_SCREENS_ROUTE)
     data object Favorites: Screens(route = Routes.FAVOURITES_SCREEN)
     data object Profile: Screens(route = Routes.PROFILE_SCREEN)
+    data object Search: Screens(route = Routes.SEARCH_SCREEN)
 }
