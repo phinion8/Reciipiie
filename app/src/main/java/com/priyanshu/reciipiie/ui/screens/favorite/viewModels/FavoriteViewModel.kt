@@ -1,5 +1,6 @@
 package com.priyanshu.reciipiie.ui.screens.favorite.viewModels
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -43,6 +44,32 @@ class FavoriteViewModel @Inject constructor(
                     is Resource.Success -> {
                         _isLoading.value = false
                         if (result.data != null) {
+                            _favoriteRecipeList.value = result.data
+                        }
+
+                    }
+                    is Resource.Error -> {
+                        _isLoading.value = false
+                    }
+                    else -> {}
+                }
+
+            }
+        }
+    }
+
+    fun getLocalSearchRecipeList(){
+        viewModelScope.launch {
+            localRecipeUseCase.getLocalSearchRecipeList(_searchQuery.value).collect{result->
+
+                when(result){
+                    is Resource.Loading -> {
+                        _isLoading.value = true
+                    }
+                    is Resource.Success -> {
+                        _isLoading.value = false
+                        if (result.data != null) {
+                            Log.d("SOME_ISSUE", result.data.size.toString() + "for query ${_searchQuery.value}")
                             _favoriteRecipeList.value = result.data
                         }
 

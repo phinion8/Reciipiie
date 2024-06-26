@@ -65,8 +65,7 @@ class HomeViewModel @Inject constructor(
 
             }
         }
-        loadSearchItemPaginated()
-        Log.d("VIEMODLEISSUE", "init")
+//        loadSearchItemPaginated()
     }
 
     fun getRandomRecipeList() {

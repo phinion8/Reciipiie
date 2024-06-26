@@ -133,7 +133,7 @@ fun HomeScreenContent(
     }
 
     LaunchedEffect(key1 = Unit) {
-        viewModel.getRandomRecipeList()
+//        viewModel.getRandomRecipeList()
 
     }
 

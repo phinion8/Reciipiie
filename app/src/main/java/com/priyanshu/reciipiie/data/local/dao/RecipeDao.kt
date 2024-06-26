@@ -13,9 +13,15 @@ interface RecipeDao{
     @Query("SELECT * FROM recipe_table ORDER BY id DESC")
     fun getAllFavoriteRecipe(): Flow<List<RecipeItem>>
 
+    @Query("SELECT * FROM recipe_table WHERE title LIKE '%' || :searchQuery || '%'")
+    fun searchFavoriteList(searchQuery: String): Flow<List<RecipeItem>>
+
+    @Query("SELECT EXISTS (SELECT 1 FROM recipe_table WHERE recipeId = :recipeId)")
+    fun isItemFavorite(recipeId: String): Flow<Boolean>
+
     @Insert
     suspend fun addFavoriteRecipe(recipeItem: RecipeItem)
 
-    @Delete
-    suspend fun deleteFavoriteRecipe(recipeItem: RecipeItem)
+    @Query("DELETE FROM recipe_table WHERE recipeId = :recipeId")
+    suspend fun deleteFavoriteRecipe(recipeId: String)
 }

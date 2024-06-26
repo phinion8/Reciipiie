@@ -1,10 +1,16 @@
 package com.priyanshu.reciipiie.ui.screens.favorite
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,23 +28,36 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxState
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -57,10 +76,15 @@ import com.priyanshu.reciipiie.ui.theme.grey500
 import com.priyanshu.reciipiie.ui.theme.lightGrey
 import com.priyanshu.reciipiie.ui.theme.primaryColor
 import com.priyanshu.reciipiie.utils.Resource
+import com.priyanshu.reciipiie.utils.showToast
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoriteScreen(
-    viewModel: FavoriteViewModel = hiltViewModel()
+    innerPaddingValues: PaddingValues,
+    viewModel: FavoriteViewModel = hiltViewModel(),
 ) {
 
     LaunchedEffect(key1 = Unit) {
@@ -76,14 +100,11 @@ fun FavoriteScreen(
 
     val lazyColumnState = rememberLazyListState()
 
-
-    if (isLoading){
-        LoadingDialog {}
-    }
-
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(horizontal = 16.dp, vertical = 8.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 16.dp, end = 16.dp, bottom = innerPaddingValues.calculateBottomPadding())
+    ) {
 
 
         Row(
@@ -106,7 +127,10 @@ fun FavoriteScreen(
             )
             Spacer(modifier = Modifier.width(12.dp))
             BasicTextField(
-                onValueChange = { viewModel.updateSearchQuery(it) },
+                onValueChange = {
+                    viewModel.updateSearchQuery(it)
+                    viewModel.getLocalSearchRecipeList()
+                },
                 value = searchQuery,
                 textStyle = MaterialTheme.typography.bodyLarge.copy(color = primaryColor),
                 modifier = Modifier
@@ -116,14 +140,12 @@ fun FavoriteScreen(
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
                 keyboardActions = KeyboardActions(onSearch = {
                     keyboardController?.hide()
-
-
-
+                    viewModel.getLocalSearchRecipeList()
                 }),
                 decorationBox = { innerTextField ->
                     if (searchQuery.isEmpty()) {
                         Text(
-                            text = "Search Recipes",
+                            text = "Search Your Favorite Recipes",
                             style = MaterialTheme.typography.bodyLarge.copy(color = lightGrey)
                         )
                     }
@@ -146,11 +168,14 @@ fun FavoriteScreen(
                 )
             }
         }
-        if (favoriteRecipeList.isEmpty() && isLoading.not()){
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                Text(text = "No Recipe Found", style = MaterialTheme.typography.bodyLarge.copy(color = grey300))
+        if (favoriteRecipeList.isEmpty() && isLoading.not()) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text(
+                    text = "No Recipe Found",
+                    style = MaterialTheme.typography.bodyLarge.copy(color = grey300)
+                )
             }
-        }else{
+        } else {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -161,19 +186,6 @@ fun FavoriteScreen(
                 items(favoriteRecipeList) {item->
                     SearchRecipeItem(result = Result(item.id, image = item.imageUrl, "", item.title)) {
 
-                    }
-                }
-
-                item {
-                    if (isLoading) {
-                        Column(
-                            modifier = Modifier.padding(top = 16.dp),
-                            verticalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            repeat(5) {
-                                SearchRecipeItemLoading()
-                            }
-                        }
                     }
                 }
             }

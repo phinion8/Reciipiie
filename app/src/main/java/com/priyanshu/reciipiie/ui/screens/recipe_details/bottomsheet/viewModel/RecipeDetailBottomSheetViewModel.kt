@@ -11,6 +11,7 @@ import com.priyanshu.reciipiie.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,6 +28,9 @@ class RecipeDetailBottomSheetViewModel @Inject constructor(
 
     private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
+
+    private val _isItemFavorite: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isItemFavorite = _isItemFavorite.asStateFlow()
 
     fun getSimilarRecipeList(id: Int) {
         viewModelScope.launch {
@@ -57,6 +61,36 @@ class RecipeDetailBottomSheetViewModel @Inject constructor(
     fun addFavoriteRecipeItem(recipeItem: RecipeItem){
         viewModelScope.launch {
             localRecipeUseCase.addFavoriteRecipeItem(recipeItem)
+        }
+    }
+
+    fun isItemFavorite(recipeId: String){
+        viewModelScope.launch {
+            localRecipeUseCase.getIsItemFavorite(recipeId = recipeId).collectLatest{result->
+                when (result) {
+                    is Resource.Loading -> {
+                        _isLoading.value = true
+                    }
+
+                    is Resource.Success -> {
+                        _isLoading.value = false
+                        if (result.data != null)
+                            _isItemFavorite.value = result.data
+                    }
+
+                    is Resource.Error -> {
+                        _isLoading.value = false
+                    }
+
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    fun deleteFavoriteRecipe(recipeId: String){
+        viewModelScope.launch {
+            localRecipeUseCase.deleteFavoriteRecipeItem(recipeId = recipeId)
         }
     }
 

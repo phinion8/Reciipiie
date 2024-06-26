@@ -70,10 +70,8 @@ class SpoonacularApiUseCase @Inject constructor(
 
     fun getSimilarRecipeList(id: Int): Flow<Resource<SimilarRecipeList>> = flow {
         emit(Resource.Loading())
-        Log.d("SIMILAR", "similar api called")
         try {
             val response = repository.getSimilarRecipeList(id)
-            Log.d("SIMILAR", response.toString())
             emit(Resource.Success(response))
         }catch (e: Exception){
             emit(Resource.Error(e.localizedMessage))

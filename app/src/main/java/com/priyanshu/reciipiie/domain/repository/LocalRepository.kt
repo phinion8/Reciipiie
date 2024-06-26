@@ -7,6 +7,8 @@ interface LocalRepository {
 
     fun getFavoriteRecipeList(): Flow<List<RecipeItem>>
     suspend fun insertFavoriteRecipe(recipeItem: RecipeItem)
-    suspend fun deleteFavoriteRecipe(recipeItem: RecipeItem)
+    suspend fun deleteFavoriteRecipe(recipeId: String)
+    suspend fun getLocalSearchRecipeList(searchQuery: String): Flow<List<RecipeItem>>
+    suspend fun getIsItemFavorite(recipeId: String): Flow<Boolean>
 
 }

@@ -60,7 +60,7 @@ fun HomeNavGraph(navController: NavHostController, innerPadding: PaddingValues, 
         }
         composable(route = Screens.Favorites.route){
             showBottomBar(true)
-            FavoriteScreen()
+            FavoriteScreen(innerPadding)
         }
         composable(route = Screens.Profile.route){
             showBottomBar(true)

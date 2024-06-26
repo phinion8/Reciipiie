@@ -17,7 +17,15 @@ class LocalRepositoryImpl @Inject constructor(
         return recipeDao.addFavoriteRecipe(recipeItem)
     }
 
-    override suspend fun deleteFavoriteRecipe(recipeItem: RecipeItem) {
-        return recipeDao.deleteFavoriteRecipe(recipeItem)
+    override suspend fun deleteFavoriteRecipe(recipeId: String) {
+        return recipeDao.deleteFavoriteRecipe(recipeId)
+    }
+
+    override suspend fun getLocalSearchRecipeList(searchQuery: String): Flow<List<RecipeItem>> {
+        return recipeDao.searchFavoriteList(searchQuery)
+    }
+
+    override suspend fun getIsItemFavorite(recipeId: String): Flow<Boolean> {
+        return recipeDao.isItemFavorite(recipeId = recipeId)
     }
 }
