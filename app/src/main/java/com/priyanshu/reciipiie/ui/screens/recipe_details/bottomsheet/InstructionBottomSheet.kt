@@ -24,10 +24,16 @@ import com.priyanshu.reciipiie.ui.components.CustomElevatedButton
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun InstructionBottomSheet(onDismiss: () -> Unit, instruction: String) {
+fun InstructionBottomSheet(onDismiss: () -> Unit, instruction: String, id: String) {
     val modalBottomSheetState = rememberModalBottomSheetState()
     var showSimilarBottomSheet by remember {
         mutableStateOf(false)
+    }
+
+    if (showSimilarBottomSheet){
+        ShowSimilarBottomSheet(onDismiss = {
+            showSimilarBottomSheet = false
+        }, id = id)
     }
 
     ModalBottomSheet(

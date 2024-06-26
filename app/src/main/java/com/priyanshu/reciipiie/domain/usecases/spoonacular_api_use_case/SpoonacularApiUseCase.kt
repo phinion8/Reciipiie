@@ -1,8 +1,10 @@
 package com.priyanshu.reciipiie.domain.usecases.spoonacular_api_use_case
 
+import android.util.Log
 import com.priyanshu.reciipiie.domain.models.RandomRecipeList
 import com.priyanshu.reciipiie.domain.models.Recipe
 import com.priyanshu.reciipiie.domain.models.search.SearchRecipeList
+import com.priyanshu.reciipiie.domain.models.similar.SimilarRecipeList
 import com.priyanshu.reciipiie.domain.repository.SpoonacularRepository
 import com.priyanshu.reciipiie.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -20,11 +22,11 @@ class SpoonacularApiUseCase @Inject constructor(
             val response = repository.getRandomRecipeList()
             emit(Resource.Success(response))
         }catch (e: Exception){
-            emit(Resource.Error(e.localizedMessage))
+            emit(Resource.Error(e.message))
         }
     }.catch {
         it.printStackTrace()
-        emit(Resource.Error(it.localizedMessage))
+        emit(Resource.Error(it.message))
     }
 
     fun getSearchRecipeList(offset: Int): Flow<Resource<SearchRecipeList>> = flow {
@@ -57,6 +59,21 @@ class SpoonacularApiUseCase @Inject constructor(
         emit(Resource.Loading())
         try {
             val response = repository.getRecipeInfo(id)
+            emit(Resource.Success(response))
+        }catch (e: Exception){
+            emit(Resource.Error(e.localizedMessage))
+        }
+    }.catch {
+        it.printStackTrace()
+        emit(Resource.Error(it.localizedMessage))
+    }
+
+    fun getSimilarRecipeList(id: Int): Flow<Resource<SimilarRecipeList>> = flow {
+        emit(Resource.Loading())
+        Log.d("SIMILAR", "similar api called")
+        try {
+            val response = repository.getSimilarRecipeList(id)
+            Log.d("SIMILAR", response.toString())
             emit(Resource.Success(response))
         }catch (e: Exception){
             emit(Resource.Error(e.localizedMessage))

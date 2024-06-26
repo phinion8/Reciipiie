@@ -77,7 +77,9 @@ fun RecipeDetailBottomSheet(
     if (showIngredientBottomSheet) {
         IngredientsBottomSheet(onDismiss = {
             showIngredientBottomSheet = false
-        }, analyzedInstructions = recipe.analyzedInstructions, recipe.instructions)
+        }, analyzedInstructions = recipe.analyzedInstructions, recipe.instructions,
+            recipe.id.toString()
+        )
     }
 
     var isFavorite by remember {

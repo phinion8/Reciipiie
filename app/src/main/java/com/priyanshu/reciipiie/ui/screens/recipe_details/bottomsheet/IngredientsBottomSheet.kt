@@ -27,7 +27,8 @@ import com.priyanshu.reciipiie.ui.components.CustomElevatedButton
 fun IngredientsBottomSheet(
     onDismiss: () -> Unit,
     analyzedInstructions: List<AnalyzedInstruction>,
-    instruction: String
+    instruction: String,
+    id: String
 ) {
     val modalBottomSheetState = rememberModalBottomSheetState()
     val ingredientList: ArrayList<Ingredient> = ArrayList()
@@ -38,7 +39,7 @@ fun IngredientsBottomSheet(
     if (showInstructionBottomSheet){
         InstructionBottomSheet(onDismiss = {
             showInstructionBottomSheet = false
-        }, instruction = instruction)
+        }, instruction = instruction, id)
     }
 
     ModalBottomSheet(

@@ -37,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -63,6 +64,7 @@ import com.priyanshu.reciipiie.ui.screens.home.viewModel.SearchListState
 import com.priyanshu.reciipiie.ui.theme.blue
 import com.priyanshu.reciipiie.ui.theme.grey300
 import com.priyanshu.reciipiie.utils.isScrollingUp
+import com.priyanshu.reciipiie.utils.showToast
 import kotlinx.coroutines.launch
 
 @Composable
@@ -113,6 +115,7 @@ fun HomeScreenContent(
     val lazyColumnState = rememberLazyListState()
     val topBarVisibility = lazyColumnState.isScrollingUp()
     val isLoading by viewModel.isLoading.collectAsState()
+    val isError by viewModel.isError.collectAsState()
 
     val shouldStartPaginate = remember {
         derivedStateOf {
@@ -131,6 +134,11 @@ fun HomeScreenContent(
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getRandomRecipeList()
+
+    }
+
+    if (isError != null){
+        LocalContext.current.showToast(isError!!)
     }
 
     val randomRecipeList by viewModel.randomRecipeList.collectAsState()
