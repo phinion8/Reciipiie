@@ -1,6 +1,7 @@
 package com.priyanshu.reciipiie.ui.screens.onboarding
 
 import android.content.IntentSender
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -85,7 +86,6 @@ fun GoogleSignInScreen(
                                 userEmail,
                                 userPhotoUrl
                             )
-
                         }
                         navController.navigate("home"){
                             popUpTo("auth"){

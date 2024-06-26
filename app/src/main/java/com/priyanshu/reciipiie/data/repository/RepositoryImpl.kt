@@ -34,7 +34,7 @@ class RepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveUserEmail(email: String) {
-        preferenceManager.saveUserEmail(email)
+         preferenceManager.saveUserEmail(email)
     }
 
     override fun readUserEmail(): Flow<String> {
@@ -42,7 +42,7 @@ class RepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveUserProfilePicUrl(url: String) {
-        preferenceManager.saveUserProfilePicUrl(url)
+         preferenceManager.saveUserProfilePicUrl(url)
     }
 
     override fun readUserProfilePicUrl(): Flow<String> {

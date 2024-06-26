@@ -59,13 +59,15 @@ class HomeViewModel @Inject constructor(
                 _userName.value = value
 
             }
+        }
+        viewModelScope.launch {
             useCases.readUserPhotoUrlUseCase().collectLatest { value: String ->
 
                 _userPhotoUrl.value = value
 
             }
         }
-//        loadSearchItemPaginated()
+        loadSearchItemPaginated()
     }
 
     fun getRandomRecipeList() {

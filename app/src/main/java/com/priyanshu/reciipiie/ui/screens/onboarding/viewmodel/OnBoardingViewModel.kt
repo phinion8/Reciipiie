@@ -70,10 +70,16 @@ class OnBoardingViewModel @Inject constructor(
         userEmail: String,
         userPhotoUrl: String
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             useCase.saveUserIdUseCase(userId)
+        }
+        viewModelScope.launch(Dispatchers.IO) {
             useCase.saveUserNameUseCase(userName)
+        }
+        viewModelScope.launch(Dispatchers.IO) {
             useCase.saveUserEmailUseCase(userEmail)
+        }
+        viewModelScope.launch(Dispatchers.IO) {
             useCase.saveUserPhotoUrlUseCase(userPhotoUrl)
         }
     }

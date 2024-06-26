@@ -132,13 +132,18 @@ fun HomeScreenContent(
         }
     }
 
+    val context = LocalContext.current
+
     LaunchedEffect(key1 = Unit) {
-//        viewModel.getRandomRecipeList()
+        viewModel.getRandomRecipeList()
 
     }
 
-    if (isError != null){
-        LocalContext.current.showToast(isError!!)
+
+    LaunchedEffect(key1 = Unit) {
+        if (isError != null){
+            context.showToast(isError!!)
+        }
     }
 
     val randomRecipeList by viewModel.randomRecipeList.collectAsState()

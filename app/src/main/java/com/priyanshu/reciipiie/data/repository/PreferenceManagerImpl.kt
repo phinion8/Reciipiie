@@ -108,9 +108,10 @@ class PreferenceManagerImpl(context: Context) : PreferenceManager {
             } else {
                 throw exception
             }
+
         }.map { preferences ->
-            val email = preferences[PreferencesKey.userEmailKey] ?: ""
-            email
+            val username = preferences[PreferencesKey.userEmailKey] ?: ""
+            username
         }
     }
 

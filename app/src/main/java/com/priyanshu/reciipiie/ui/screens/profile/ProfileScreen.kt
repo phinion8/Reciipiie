@@ -17,15 +17,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.priyanshu.reciipiie.R
+import com.priyanshu.reciipiie.navigation.Screens
+import com.priyanshu.reciipiie.ui.components.CustomElevatedButton
 import com.priyanshu.reciipiie.ui.screens.profile.viewModel.ProfileViewModel
+import com.priyanshu.reciipiie.ui.theme.lightGrey
 
 @Composable
 fun ProfileScreen(
+    navController: NavController,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
 
@@ -43,16 +50,22 @@ fun ProfileScreen(
 
         AsyncImage(
             modifier = Modifier
-                .size(150.dp)
-                .clip(CircleShape),
+                .clip(CircleShape)
+                .size(100.dp),
             model = profilePhotoUrl,
-            contentDescription = "Profile Photo",
-            contentScale = ContentScale.Crop
+            placeholder = painterResource(id = R.drawable.sample_profile_img),
+            error = painterResource(id = R.drawable.sample_profile_img),
+            contentDescription = "Profile pic"
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(text = name, style = MaterialTheme.typography.headlineLarge.copy(fontSize = 18.sp))
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = email, style = MaterialTheme.typography.bodyLarge)
+        Text(text = email, style = MaterialTheme.typography.bodyLarge.copy(color = lightGrey))
+        Spacer(modifier = Modifier.height(24.dp))
+        CustomElevatedButton(onClick = {
+            viewModel.logOutUser()
+            navController.navigate(Screens.OnBoarding.route)
+        }, text = "Log Out")
 
     }
 }

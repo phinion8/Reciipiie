@@ -63,6 +63,15 @@ fun HomeNavGraph(
     showBottomBar: (Boolean) -> Unit
 ) {
     NavHost(navController = navController, route = "home", startDestination = Screens.Home.route) {
+        composable(route = Screens.OnBoarding.route) {
+            showBottomBar(false)
+            OnBoardingScreen(navController)
+        }
+
+        composable(route = Screens.GoogleSignIn.route) {
+            showBottomBar(false)
+            GoogleSignInScreen(navController)
+        }
         composable(route = Screens.Home.route) {
             showBottomBar(true)
             HomeScreenContent(innerPadding = innerPadding, navController = navController)
@@ -73,7 +82,7 @@ fun HomeNavGraph(
         }
         composable(route = Screens.Profile.route) {
             showBottomBar(true)
-            ProfileScreen()
+            ProfileScreen(navController)
         }
         composable(route = Screens.Search.route) {
             showBottomBar(false)
