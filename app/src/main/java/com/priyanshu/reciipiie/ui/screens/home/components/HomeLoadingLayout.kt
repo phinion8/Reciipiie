@@ -34,7 +34,7 @@ fun HomeLoadingLayout() {
             item {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(0.9f)
+                        .fillMaxWidth()
                         .clip(RoundedCornerShape(16.dp))
                         .height(180.dp)
                         .shimmerLoadingAnimation()
@@ -53,7 +53,7 @@ fun HomeLoadingLayout() {
                 Box(
                     modifier = Modifier
                         .height(120.dp)
-                        .fillMaxWidth(0.9f)
+                        .fillMaxWidth()
                         .clip(RoundedCornerShape(16.dp))
                         .shimmerLoadingAnimation()
                 )

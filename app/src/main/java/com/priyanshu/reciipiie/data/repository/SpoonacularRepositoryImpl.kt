@@ -16,4 +16,11 @@ class SpoonacularRepositoryImpl @Inject constructor(
     override suspend fun getSearchRecipeList(offset: Int): SearchRecipeList {
         return spoonacularApi.getSearchRecipeList("c01a7de764ab4c04b0aeb091588618f8", offset = offset)
     }
+
+    override suspend fun getRecipeListFromSearchQuery(
+        query: String,
+        offset: Int
+    ): SearchRecipeList {
+        return spoonacularApi.getRecipeListFromSearchQuery("c01a7de764ab4c04b0aeb091588618f8", query, offset)
+    }
 }

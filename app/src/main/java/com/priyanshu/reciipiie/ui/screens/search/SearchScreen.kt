@@ -4,6 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -28,10 +31,16 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.priyanshu.reciipiie.R
+import com.priyanshu.reciipiie.ui.components.ShowLottieAnimation
+import com.priyanshu.reciipiie.ui.screens.home.components.SearchRecipeItem
+import com.priyanshu.reciipiie.ui.screens.home.components.SearchRecipeItemLoading
+import com.priyanshu.reciipiie.ui.screens.home.viewModel.SearchListState
 import com.priyanshu.reciipiie.ui.screens.search.viewModels.SearchViewModel
+import com.priyanshu.reciipiie.ui.theme.grey300
 import com.priyanshu.reciipiie.ui.theme.grey500
 import com.priyanshu.reciipiie.ui.theme.lightGrey
 import com.priyanshu.reciipiie.ui.theme.primaryColor
+import com.priyanshu.reciipiie.utils.isScrollingUp
 
 @Composable
 fun SearchScreen(
@@ -41,6 +50,23 @@ fun SearchScreen(
     val focusRequester = FocusRequester()
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    val lazyColumnState = rememberLazyListState()
+
+    val shouldStartPaginate = remember {
+        derivedStateOf {
+            viewModel.canPaginate && (lazyColumnState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
+                ?: -9) >= (lazyColumnState.layoutInfo.totalItemsCount - 3)
+        }
+    }
+
+    val searchRecipeList = viewModel.searchRecipeList
+
+    LaunchedEffect(key1 = shouldStartPaginate.value) {
+        if (shouldStartPaginate.value && viewModel.searchListState == SearchListState.IDLE) {
+            viewModel.loadSearchItemPaginated()
+        }
+    }
+
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
@@ -48,6 +74,7 @@ fun SearchScreen(
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(horizontal = 16.dp, vertical = 8.dp)) {
+
 
         Row(
             modifier = Modifier
@@ -79,7 +106,14 @@ fun SearchScreen(
                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
                 keyboardActions = KeyboardActions(onSearch = {
                     keyboardController?.hide()
-                    //Handing search over here
+
+                    with(viewModel){
+                        page = 1
+                        searchListState = SearchListState.IDLE
+                        canPaginate = false
+                        loadSearchItemPaginated()
+                    }
+
                 }),
                 decorationBox = { innerTextField ->
                     if (searchQuery.isEmpty()) {
@@ -107,5 +141,59 @@ fun SearchScreen(
                 )
             }
         }
+        if (viewModel.searchRecipeList.isEmpty() && viewModel.searchListState != SearchListState.IDLE && viewModel.searchListState != SearchListState.LOADING){
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                Text(text = "No Recipe Found", style = MaterialTheme.typography.bodyLarge.copy(color = grey300))
+            }
+        }else{
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                state = lazyColumnState
+            ) {
+                items(searchRecipeList) {
+                    SearchRecipeItem(result = it, onItemClick = { id ->
+
+                    })
+                }
+
+                item {
+                    when (viewModel.searchListState) {
+                        SearchListState.LOADING -> {
+                            Column(
+                                modifier = Modifier.padding(top = 16.dp),
+                                verticalArrangement = Arrangement.spacedBy(16.dp)
+                            ) {
+                                repeat(5) {
+                                    SearchRecipeItemLoading()
+                                }
+                            }
+                        }
+
+                        SearchListState.PAGINATING -> {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(all = 16.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                ShowLottieAnimation(
+                                    rawRes = R.raw.loading_anim,
+                                    modifier = Modifier.size(72.dp)
+                                )
+                            }
+
+                        }
+
+                        else -> {
+
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

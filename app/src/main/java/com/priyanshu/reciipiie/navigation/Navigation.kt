@@ -4,6 +4,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -11,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.priyanshu.reciipiie.ui.screens.home.HomeScreen
 import com.priyanshu.reciipiie.ui.screens.home.HomeScreenContent
+import com.priyanshu.reciipiie.ui.screens.home.viewModel.HomeViewModel
 import com.priyanshu.reciipiie.ui.screens.onboarding.GoogleSignInScreen
 import com.priyanshu.reciipiie.ui.screens.onboarding.OnBoardingScreen
 import com.priyanshu.reciipiie.ui.screens.search.SearchScreen

@@ -39,4 +39,17 @@ class SpoonacularApiUseCase @Inject constructor(
         emit(Resource.Error(it.localizedMessage))
     }
 
+    fun getRecipeListFromSearchQuery(query: String, offset: Int): Flow<Resource<SearchRecipeList>> = flow {
+        emit(Resource.Loading())
+        try {
+            val response = repository.getRecipeListFromSearchQuery(query, offset)
+            emit(Resource.Success(response))
+        }catch (e: Exception){
+            emit(Resource.Error(e.localizedMessage))
+        }
+    }.catch {
+        it.printStackTrace()
+        emit(Resource.Error(it.localizedMessage))
+    }
+
 }

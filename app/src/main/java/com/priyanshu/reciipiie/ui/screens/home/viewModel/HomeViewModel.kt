@@ -66,6 +66,7 @@ class HomeViewModel @Inject constructor(
             }
         }
         loadSearchItemPaginated()
+        Log.d("VIEMODLEISSUE", "init")
     }
 
     fun getRandomRecipeList() {
@@ -126,9 +127,7 @@ class HomeViewModel @Inject constructor(
                         error = result.message.toString()
                     }
 
-                    else -> {
-                        Log.d("HOMEVIEWMODEL", "something went wrong")
-                    }
+                    else -> {}
                 }
 
             }

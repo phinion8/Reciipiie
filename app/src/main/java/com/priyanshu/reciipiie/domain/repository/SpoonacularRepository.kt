@@ -7,4 +7,5 @@ import com.priyanshu.reciipiie.utils.Resource
 interface SpoonacularRepository {
     suspend fun getRandomRecipeList(): RandomRecipeList
     suspend fun getSearchRecipeList(offset: Int): SearchRecipeList
+    suspend fun getRecipeListFromSearchQuery(query: String, offset: Int): SearchRecipeList
 }

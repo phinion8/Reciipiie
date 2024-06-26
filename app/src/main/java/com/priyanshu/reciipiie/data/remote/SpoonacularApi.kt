@@ -19,4 +19,12 @@ interface SpoonacularApi {
         @Query("offset") offset: Int
     ): SearchRecipeList
 
+
+    @GET("recipes/complexSearch?number=${Constants.PAGE_SIZE}")
+    suspend fun getRecipeListFromSearchQuery(
+        @Query("apiKey") apiKey: String,
+        @Query("query") query: String,
+        @Query("offset") offset: Int
+    ): SearchRecipeList
+
 }
