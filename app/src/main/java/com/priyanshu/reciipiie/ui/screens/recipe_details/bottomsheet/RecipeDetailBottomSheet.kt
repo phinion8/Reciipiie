@@ -49,12 +49,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.priyanshu.reciipiie.R
+import com.priyanshu.reciipiie.data.local.entities.RecipeItem
 import com.priyanshu.reciipiie.domain.models.Ingredient
 import com.priyanshu.reciipiie.domain.models.Recipe
 import com.priyanshu.reciipiie.domain.models.Step
 import com.priyanshu.reciipiie.ui.components.CustomElevatedButton
+import com.priyanshu.reciipiie.ui.screens.recipe_details.bottomsheet.viewModel.RecipeDetailBottomSheetViewModel
 import com.priyanshu.reciipiie.ui.theme.blue
 import com.priyanshu.reciipiie.ui.theme.darkGrey
 import com.priyanshu.reciipiie.ui.theme.grey300
@@ -67,7 +70,8 @@ import com.priyanshu.reciipiie.ui.theme.secondaryColor
 @Composable
 fun RecipeDetailBottomSheet(
     onDismiss: () -> Unit,
-    recipe: Recipe
+    recipe: Recipe,
+    viewModel: RecipeDetailBottomSheetViewModel = hiltViewModel()
 ) {
     val modalBottomSheetState = rememberModalBottomSheetState()
     var showIngredientBottomSheet by remember {
@@ -75,9 +79,10 @@ fun RecipeDetailBottomSheet(
     }
 
     if (showIngredientBottomSheet) {
-        IngredientsBottomSheet(onDismiss = {
-            showIngredientBottomSheet = false
-        }, analyzedInstructions = recipe.analyzedInstructions, recipe.instructions,
+        IngredientsBottomSheet(
+            onDismiss = {
+                showIngredientBottomSheet = false
+            }, analyzedInstructions = recipe.analyzedInstructions, recipe.instructions,
             recipe.id.toString()
         )
     }
@@ -123,13 +128,20 @@ fun RecipeDetailBottomSheet(
                         .background(shape = CircleShape, color = darkGrey)
                         .align(Alignment.TopEnd),
                     contentAlignment = Alignment.Center
-                ){
+                ) {
                     Icon(
                         modifier = Modifier
                             .size(if (isFavorite) 50.dp else 42.dp)
                             .padding(all = 8.dp)
                             .clickable {
                                 isFavorite = true
+                                viewModel.addFavoriteRecipeItem(
+                                    RecipeItem(
+                                        recipeId = recipe.id.toString(),
+                                        imageUrl = recipe.image,
+                                        title = recipe.title
+                                    )
+                                )
                             },
                         painter = painterResource(id = if (isFavorite) R.drawable.ic_heart_filled else R.drawable.ic_like),
                         contentDescription = "Favorite icon",

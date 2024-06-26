@@ -1,12 +1,12 @@
-package com.priyanshu.reciipiie.ui.screens.recipe_details.bottomsheet.viewModel
+package com.priyanshu.reciipiie.ui.screens.favorite.viewModels
 
-import android.util.Log
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.priyanshu.reciipiie.data.local.entities.RecipeItem
-import com.priyanshu.reciipiie.domain.models.similar.SimilarRecipeList
 import com.priyanshu.reciipiie.domain.usecases.local_use_case.LocalRecipeUseCase
-import com.priyanshu.reciipiie.domain.usecases.spoonacular_api_use_case.SpoonacularApiUseCase
 import com.priyanshu.reciipiie.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,49 +15,47 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RecipeDetailBottomSheetViewModel @Inject constructor(
-    private val useCase: SpoonacularApiUseCase,
+class FavoriteViewModel @Inject constructor(
     private val localRecipeUseCase: LocalRecipeUseCase
-) : ViewModel() {
+): ViewModel() {
 
-    private val _similarRecipeList: MutableStateFlow<SimilarRecipeList> = MutableStateFlow(
-        SimilarRecipeList()
-    )
-    val similarRecipeList = _similarRecipeList.asStateFlow()
+    private val _favoriteRecipeList: MutableStateFlow<List<RecipeItem>> = MutableStateFlow(emptyList())
+    val favoriteRecipeList = _favoriteRecipeList.asStateFlow()
 
     private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
-    fun getSimilarRecipeList(id: Int) {
+    private val _searchQuery: MutableState<String> = mutableStateOf("")
+    val searchQuery: State<String> = _searchQuery
+
+    fun updateSearchQuery(query: String) {
+        _searchQuery.value = query
+    }
+
+    fun getFavoriteRecipeList(){
         viewModelScope.launch {
-            useCase.getSimilarRecipeList(id).collect { result ->
-                when (result) {
+            localRecipeUseCase.getAllFavoriteRecipeList().collect{result->
+
+                when(result){
                     is Resource.Loading -> {
                         _isLoading.value = true
                     }
-
                     is Resource.Success -> {
                         _isLoading.value = false
-                        Log.d("SIMILLAR", result.data.toString())
-                        if (result.data != null)
-                            _similarRecipeList.value = result.data
-                    }
+                        if (result.data != null) {
+                            _favoriteRecipeList.value = result.data
+                        }
 
+                    }
                     is Resource.Error -> {
                         _isLoading.value = false
                     }
-
                     else -> {}
                 }
+
             }
         }
-
     }
 
-    fun addFavoriteRecipeItem(recipeItem: RecipeItem){
-        viewModelScope.launch {
-            localRecipeUseCase.addFavoriteRecipeItem(recipeItem)
-        }
-    }
 
 }

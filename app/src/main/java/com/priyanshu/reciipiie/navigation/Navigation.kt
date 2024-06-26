@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.priyanshu.reciipiie.ui.screens.favorite.FavoriteScreen
 import com.priyanshu.reciipiie.ui.screens.home.HomeScreen
 import com.priyanshu.reciipiie.ui.screens.home.HomeScreenContent
 import com.priyanshu.reciipiie.ui.screens.home.viewModel.HomeViewModel
@@ -59,6 +60,7 @@ fun HomeNavGraph(navController: NavHostController, innerPadding: PaddingValues, 
         }
         composable(route = Screens.Favorites.route){
             showBottomBar(true)
+            FavoriteScreen()
         }
         composable(route = Screens.Profile.route){
             showBottomBar(true)
