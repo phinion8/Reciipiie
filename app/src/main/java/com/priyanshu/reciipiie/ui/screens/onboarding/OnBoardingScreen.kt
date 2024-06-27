@@ -55,7 +55,7 @@ fun OnBoardingScreen(
             Text(
                 text = stringResource(R.string.welcome_to_reciipiie_discover_delicious_recipes_and_unleash_your_inner_chef_let_s_start_cooking),
                 style = MaterialTheme.typography.bodyLarge.copy(
-                    color = grey300
+                    color = lightGrey
                 ),
                 textAlign = TextAlign.Center
             )

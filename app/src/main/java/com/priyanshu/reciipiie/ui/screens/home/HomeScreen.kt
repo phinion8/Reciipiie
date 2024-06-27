@@ -91,6 +91,9 @@ fun HomeScreen(
                         navController = navController,
                         onItemClick = {
                             navController.navigate(it.route) {
+                                popUpTo(navController.graph.startDestinationId) {
+                                    saveState = true
+                                }
                                 this.launchSingleTop = true
                                 this.restoreState = true
                             }
@@ -115,7 +118,6 @@ fun HomeScreenContent(
     val lazyColumnState = rememberLazyListState()
     val topBarVisibility = lazyColumnState.isScrollingUp()
     val isLoading by viewModel.isLoading.collectAsState()
-    val isError by viewModel.isError.collectAsState()
 
     val shouldStartPaginate = remember {
         derivedStateOf {
@@ -132,19 +134,6 @@ fun HomeScreenContent(
         }
     }
 
-    val context = LocalContext.current
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.getRandomRecipeList()
-
-    }
-
-
-    LaunchedEffect(key1 = Unit) {
-        if (isError != null){
-            context.showToast(isError!!)
-        }
-    }
 
     val randomRecipeList by viewModel.randomRecipeList.collectAsState()
 

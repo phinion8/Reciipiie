@@ -13,6 +13,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.priyanshu.reciipiie.ui.theme.blue
+import com.priyanshu.reciipiie.ui.theme.lightGrey
+import com.priyanshu.reciipiie.ui.theme.white
 
 @Composable
 fun CustomElevatedButton(
@@ -29,13 +31,13 @@ fun CustomElevatedButton(
             .fillMaxWidth(0.9f),
         colors = ButtonDefaults.buttonColors(containerColor = blue)
     ) {
-
+        lightGrey
         Text(
             modifier = Modifier.padding(
                 vertical = 4.dp
             ),
             text = text,
-            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Medium)
+            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Medium, color = white)
         )
 
     }

@@ -68,9 +68,10 @@ class HomeViewModel @Inject constructor(
             }
         }
         loadSearchItemPaginated()
+        getRandomRecipeList()
     }
 
-    fun getRandomRecipeList() {
+    private fun getRandomRecipeList() {
         viewModelScope.launch {
             spoonacularApiUseCase.getRandomRecipeList().collect { result ->
 

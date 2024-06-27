@@ -47,6 +47,7 @@ import com.priyanshu.reciipiie.R
 import com.priyanshu.reciipiie.ui.components.LoadingDialog
 import com.priyanshu.reciipiie.ui.screens.onboarding.viewmodel.OnBoardingViewModel
 import com.priyanshu.reciipiie.ui.theme.grey300
+import com.priyanshu.reciipiie.ui.theme.lightGrey
 import com.priyanshu.reciipiie.ui.theme.primaryColor
 import com.priyanshu.reciipiie.ui.theme.secondaryColor
 import com.priyanshu.reciipiie.utils.Resource
@@ -160,7 +161,8 @@ fun GoogleSignInScreen(
             text = stringResource(R.string.welcome_to_reciipie),
             style = MaterialTheme.typography.headlineLarge.copy(
                 lineHeight = 64.sp,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                color = primaryColor
             )
         )
 
@@ -169,7 +171,7 @@ fun GoogleSignInScreen(
         Text(
             text = stringResource(R.string.please_sign_in_to_continue_by_signing_up_you_agree_to_our_terms_and_conditions),
             style = MaterialTheme.typography.bodyLarge.copy(
-                color = grey300,
+                color = lightGrey,
                 textAlign = TextAlign.Center
             )
         )
