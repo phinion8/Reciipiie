@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(
+class  SearchViewModel @Inject constructor(
     private val useCases: SpoonacularApiUseCase
 ): ViewModel() {
 
